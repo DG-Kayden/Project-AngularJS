@@ -1,0 +1,105 @@
+<div class="container">
+    <button type="button" (click)="change()" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Thêm sản
+        phẩm</button>
+</div>
+
+<div class="col-md-12">
+    <table class="table table-dark ">
+        <tr>
+            <th>#</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th style="text-align: center;">Mô tả</th>
+            <th>Hình</th>
+            <th>Loại</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
+        </tr>
+
+        <tr *ngFor="let item of dataProduct; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{item.proName}}</td>
+            <td>{{item.price}}</td>
+            <td style="max-width: 200px; max-height: 50px; overflow: hidden; text-overflow: ellipsis;">
+                {{item.description}}</td>
+
+            <td scope="row">
+                <img src="{{ item.image }}" width="50px" alt="" srcset="" />
+            </td>
+            <td>{{item.catId}}</td>
+            <td>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modelId"
+                    (click)="editPro(item)">Sửa</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" (click)="deleteProduct(item)">Xóa</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #proForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tên sản phẩm</label>
+                                <input type="text" name="proName" [(ngModel)]="objPro.proName" class="form-control"
+                                    placeholder="" aria-describedby="helpId">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Giá</label>
+                                <input type="number" name="price" [(ngModel)]="objPro.price" class="form-control"
+                                    placeholder="" aria-describedby="helpId">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Loại</label>
+                                <input type="number" name="catId" [(ngModel)]="objPro.catId" class="form-control"
+                                    placeholder="" aria-describedby="helpId">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Mô tả</label>
+                                <input type="text" name="description" [(ngModel)]="objPro.description"
+                                    class="form-control" placeholder="description" aria-describedby="helpId">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Hình ảnh</label>
+                                <input type="file" class="form-control" (change)="onChange($event)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img [src]="file" width="50%" alt="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addNewPro(proForm.value)"
+                    *ngIf="isActive == false">
+                    Save</button>
+                <button type="button" class="btn btn-primary" (click)="updateProduct(proForm.value)"
+                    *ngIf="isActive == true">
+                    Save change</button>
+            </div>
+        </div>
+    </div>
+</div>
